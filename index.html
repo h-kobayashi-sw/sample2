@@ -1,0 +1,40 @@
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+<input type="file" name="template">
+<button type="button" id="confirm">確認</button>
+
+<div id="message">
+</div>
+
+<script>
+$(function(){
+    $('#confirm').on('click', function(){
+        var file = $('[name="template"]').get(0).files[0];
+
+        if (!file) {
+            alert('ファイルを選択してください。');
+            return;
+        }
+
+        var fileType = file.type.toLowerCase(),
+            extension = false,
+            message = "下記の内容をご連絡ください<br><br>";
+
+        if (fileType === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+            extension = 'xlsx';
+        } else if (fileType === 'application/vnd.ms-excel.sheet.macroenabled.12') {
+            extension = 'xlsm';
+        }
+
+        if (extension === false) {
+            message += '拡張子判定ができませんでした';
+        } else {
+            message += '拡張子は[' + extension + ']';
+        }
+
+        message += "<br>" + fileType;
+
+        $('#message').html(message);
+    });
+});
+</script>
